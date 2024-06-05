@@ -158,6 +158,36 @@ enum Input
 };
 
 /**
+ * @def limiteTMax
+ * @brief Maximum temperature limit.
+ */
+#define limiteTMax 50 
+
+/**
+ * @def limiteHMax
+ * @brief Maximum hall sensor value limit.
+ */
+#define limiteHMax 1020
+
+/**
+ * @def limiteLMax
+ * @brief Maximum light sensor value limit.
+ */
+#define limiteLMax 1020  
+
+/**
+ * @def limiteTMin
+ * @brief Minimum temperature limit.
+ */
+#define limiteTMin 0
+
+/**
+ * @def limiteLMin
+ * @brief Minimum light sensor value limit.
+ */
+#define limiteLMin 0 
+
+/**
  * @brief State machine object.
  */
 StateMachine stateMachine(6, 13);

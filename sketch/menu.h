@@ -12,70 +12,14 @@
 #include "variables.h"
 #include <LiquidMenu.h>
 
-/**
- * @def limiteTMax
- * @brief Maximum temperature limit.
- */
-#define limiteTMax 50 
+LiquidLine line1(0, 1, "TEMP MAX [", tempMax, "]"); /**< First line of liquid crystal display (LCD). */
+LiquidLine line2(0, 1, "TEMP MIN [", tempMin, "]"); /**< Second line of liquid crystal display (LCD). */
+LiquidLine line3(0, 1, "LUZ MAX [", luzMax, "]");   /**< Third line of liquid crystal display (LCD). */
+LiquidLine line4(0, 1, "LUZ MIN [", luzMin, "]");   /**< Fourth line of liquid crystal display (LCD). */
+LiquidLine line5(0, 1, "HALL [", hallMax, "]");     /**< Fifth line of liquid crystal display (LCD). */
+LiquidLine line6(0, 1, "RESET");                    /**< Sixth line of liquid crystal display (LCD). */
 
-/**
- * @def limiteHMax
- * @brief Maximum hall sensor value limit.
- */
-#define limiteHMax 1023
-
-/**
- * @def limiteLMax
- * @brief Maximum light sensor value limit.
- */
-#define limiteLMax 1023  
-
-/**
- * @def limiteTMin
- * @brief Minimum temperature limit.
- */
-#define limiteTMin 0
-
-/**
- * @def limiteLMin
- * @brief Minimum light sensor value limit.
- */
-#define limiteLMin 0 
-
-/**
- * @brief First line of liquid crystal display (LCD).
- */
-LiquidLine line1(0, 1, "TEMP MAX [", tempMax, "]"); 
-
-/**
- * @brief Second line of liquid crystal display (LCD).
- */
-LiquidLine line2(0, 1, "TEMP MIN [", tempMin, "]"); 
-
-/**
- * @brief Third line of liquid crystal display (LCD).
- */
-LiquidLine line3(0, 1, "LUZ MAX [", luzMax, "]");
-
-/**
- * @brief Fourth line of liquid crystal display (LCD).
- */
-LiquidLine line4(0, 1, "LUZ MIN [", luzMin, "]");
-
-/**
- * @brief Fifth line of liquid crystal display (LCD).
- */
-LiquidLine line5(0, 1, "HALL [", hallMax, "]");
-
-/**
- * @brief Sixth line of liquid crystal display (LCD).
- */
-LiquidLine line6(0, 1, "RESET"); 
-
-/**
- * @brief LCD screen.
- */
-LiquidScreen screen; 
+LiquidScreen screen; /**< LCD screen. */
 
 /**
  * @brief LiquidMenu object for menu navigation.

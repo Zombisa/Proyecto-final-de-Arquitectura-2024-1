@@ -1,7 +1,14 @@
+/**
+ * @file utilidad.h
+ * @brief Header file containing utility functions and task declarations.
+ */
 #ifndef UTILIDAD_H
 #define UTILIDAD_H
 
-// Auxiliar function that reads the user input
+/**
+ * @brief Function to read user input and map it to predefined input events.
+ * @return Input event mapped from user input.
+ */
 int readInput()
 {
   Input currentInput = Input::Unknown;
@@ -28,33 +35,124 @@ int readInput()
   return currentInput;
 }
 
-
-
+/**
+ * @brief Function to reset the LCD screen.
+ * It clears the LCD screen after a delay.
+ */
 void reiniciarLCD(){
     delay(300);
     lcd.clear();
 }
 
+/**
+ * @brief Function to execute actions when leaving the 'Inicio' state.
+ * It turns off LEDs and performs cleanup.
+ */
 void salirInicio();
+
+/**
+ * @brief Function to execute actions when leaving the 'Config' state.
+ * It stops menu-related tasks and resets input.
+ */
 void salirConfig();
+
+/**
+ * @brief Function to execute actions when leaving the 'MonAmbien' state.
+ * It stops environmental monitoring tasks and resets input.
+ */
 void salirMonAmbien();
+
+/**
+ * @brief Function to execute actions when leaving the 'MonEventos' state.
+ * It stops event monitoring tasks and resets input.
+ */
 void salirMonEventos();
+
+/**
+ * @brief Function to execute actions when leaving the 'Alarma' state.
+ * It stops alarm-related tasks.
+ */
 void salirAlarma();
+
+/**
+ * @brief Function to execute actions when leaving the 'Bloqueo' state.
+ * It performs cleanup.
+ */
 void salirBloqueo();
 
+/**
+ * @brief Function to print environmental parameters to the LCD screen.
+ * It includes temperature, humidity, and light intensity.
+ */
 void printMonitorAmbiental();
 
+/**
+ * @brief Function to print magnetic field intensity to the LCD screen.
+ * It monitors the magnetic field.
+ */
 void printMonitorHall();
 
-void alarmaActivada(); 
-
+/**
+ * @brief Function to handle menu navigation in the main loop.
+ * It processes keypad input and updates the menu accordingly.
+ */
 void loopLiquidMenu();
 
+/**
+ * @brief Function to increment the current variable value.
+ * It is used in the menu for adjusting settings.
+ */
 void incrementarVariableActual();
 
+/**
+ * @brief Function to decrement the current variable value.
+ * It is used in the menu for adjusting settings.
+ */
 void decrementarVariableActual();
 
+/**
+ * @brief Function to activate the alarm.
+ * It plays a predefined melody through the buzzer.
+ */
 void alarma();
+
+/**
+ * @brief Function to handle retry attempt.
+ * It resets variables for re-entering the password and starts necessary tasks.
+ */
+void again();
+
+/**
+ * @brief Function to handle incorrect password input.
+ * It displays an error message on the LCD screen.
+ */
+void claveIncorrecta();
+
+/**
+ * @brief Function to handle security loop.
+ * It captures keypad input and verifies the entered password.
+ */
+void loopSeguridad();
+
+AsyncTask taskTime5(5000, false, [](){claveIncorrecta();});
+
+AsyncTask taskLoop(1, true, loopSeguridad);
+
+AsyncTask taskAgain(2000, false, again);
+
+AsyncTask taskStopLoop(1, false, [] () { taskLoop.Stop();} );
+
+AsyncTask taskLedAzul(800, true, [](){
+  if(led== 0)
+    digitalWrite(LED_BLUE,HIGH);
+   else
+    digitalWrite(LED_BLUE,LOW);
+  led = led == 0 ? 1:0;
+});
+
+AsyncTask taskClaveCorrecta(200, false, [](){ input = Input::ClaveCorrecta;});
+
+AsyncTask taskSistBloq(10, false, [] () {input = Input::SistBloqueado;  });
 
 AsyncTask taskLoopMenu(100, true, loopLiquidMenu); 
 
@@ -80,6 +178,10 @@ AsyncTask taskLoopMonitorHall(300, true, printMonitorHall);
 
 AsyncTask taskAlarma(1, true, alarma);
 
+/**
+ * @brief Function to update all asynchronous tasks.
+ * It updates the state of all tasks in the system.
+ */
 void updateTask(){
   taskLoopMenu.Update();
   taskBoton.Update();
@@ -92,25 +194,16 @@ void updateTask(){
   taskTemp.Update();
   taskHall.Update();
   taskLuz.Update();
-  taskTimeOut30k.Update();
+  taskTime5.Update();
   taskLoop.Update();
   taskAgain.Update();
   taskStopLoop.Update();
-  taskOnLedB.Update();
-  taskCorrect.Update();
-  taskSysBlock.Update();
+  taskLedAzul.Update();
+  taskClaveCorrecta.Update();
+  taskSistBloq.Update();
 }
 
 void salirConfig();
-
-bool isButtonPressed() {
-  int boton = digitalRead(buttonPin); 
-  if (boton == HIGH) {
-    Serial.println("Se ha presionado el boton");
-    return true;
-  }
-  return false;
-}
 
 void alarma() {
   unsigned long currentTime = millis();

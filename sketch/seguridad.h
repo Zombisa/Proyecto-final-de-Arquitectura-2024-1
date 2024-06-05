@@ -1,12 +1,16 @@
+/**
+ * @file seguridad.h
+ * @brief Header file containing functions for security management.
+ */
 #ifndef SEGURIDAD
 #define SEGURIDAD
 
 #include "variables.h"
 
 /**
-* @brief Inicializa las variables para el correcto funcionamiento.
-* Tambien inicia la tarea para el loop 
-*/
+ * @brief Function to initialize security system.
+ * It resets variables, clears LCD, and starts necessary tasks.
+ */
 void seguridad(){
  
   Serial.println("Ini   Cfg   MonAmb   MonEve   Alm   Blq");
@@ -27,32 +31,49 @@ void seguridad(){
 }
 
 /**
-* @brief Hace las acciones necesarias para cuando la contraseña es correcta
-*/
-void runRightPass(){
+ * @brief Function to handle correct password input.
+ * It displays a success message, activates green LED, and plays a melody.
+ */
+void claveCorrecta(){
   reiniciarLCD();
   lcd.print("Clave correcta");
   digitalWrite(LED_GREEN, HIGH);
+
+  tone(BUZZER, 1800, 100);
+  delay(100);
+  tone(BUZZER, 2000, 100);
+  delay(100);
+  tone(BUZZER, 2200, 100);
+  delay(100);
+  tone(BUZZER, 2500, 350);
+  delay(350);
+  noTone(BUZZER);
+
   taskStopLoop.Start();
-  taskCorrect.Start();
-  taskTimeOut30k.Stop();
+  taskClaveCorrecta.Start();
+  taskTime5.Stop();
   
 }
 
 /**
-* @brief Hace las acciones necesarias para un intento fallido, incluyendo validar si es necesario bloquear el sistema
-*/
-void runWrongPass(){
+ * @brief Function to handle incorrect password input.
+ * It displays an error message, activates blue LED, and manages retry attempts.
+ */
+void claveIncorrecta(){
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Clave incorrecta");
   digitalWrite(LED_BLUE, HIGH);
 
+  tone(BUZZER, 1000, 200);
+  delay(200);
+  noTone(BUZZER);
+
   for(size_t i=0; i<4; i++)
     varComparar[i] = '*';
   taskStopLoop.Start(); 
   if(contadorIntentos == 2){
-    taskSysBlock.Start();
+    taskSistBloq.Start();
   }else{
     taskAgain.Start();
     contadorDigitos = 0;
@@ -62,9 +83,10 @@ void runWrongPass(){
 }
 
 /**
-* @brief Funcion que se va a ejecutar cada vez para validar si se presiono un key y recibir la contraseña
-*/
-void loopS(){
+ * @brief Function to handle security loop.
+ * It captures keypad input and verifies the entered password.
+ */
+void loopSeguridad(){
   lcd.setCursor(contadorDigitos, 1);
   char key = keypad.getKey();
   if (contadorDigitos < 4)
@@ -77,10 +99,9 @@ void loopS(){
 
   if(!key) return;
 
-  taskTimeOut30k.Stop();
-  taskTimeOut30k.Start();
+  taskTime5.Stop();
+  taskTime5.Start();
 
-  // Recibimos caracter ingresado si no hemos alcanzado el límite de 4 caracteres
   if(contadorDigitos < 4) {
     varComparar[contadorDigitos] = key;
     lcd.print("*");
@@ -88,25 +109,25 @@ void loopS(){
   }
 
   if(contadorDigitos == 4) {
-    bool passCorrect = true;
+    bool clvCorrecta = true;
     for(int i = 0; i < 4; i++) {
       if(varComparar[i] != varContrasenia[i]) {
-        passCorrect = false;
+        clvCorrecta = false;
         break;
       }
     }
-    if(passCorrect){
-      runRightPass();
+    if(clvCorrecta){
+      claveCorrecta();
     } else {
-      runWrongPass();
+      claveIncorrecta();
     }
   }
 }
 
-
 /**
-* @brief Hace las acciones para volver a intentar ingresar la contraseña 
-*/
+ * @brief Function to handle retry attempt.
+ * It resets variables for re-entering the password and starts necessary tasks.
+ */
 void again(){
   digitalWrite(LED_BLUE, LOW);
   reiniciarLCD();

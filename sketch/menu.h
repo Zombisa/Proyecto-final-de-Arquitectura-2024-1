@@ -1,3 +1,8 @@
+/**
+ * @file menu.h
+ * @brief Header file containing menu configurations and functions.
+ */
+
 #ifndef MENU
 #define MENU
 
@@ -5,36 +10,90 @@
 #include "variables.h"
 #include <LiquidMenu.h>
 
+/**
+ * @def limiteTMax
+ * @brief Maximum temperature limit.
+ */
 #define limiteTMax 50 
+
+/**
+ * @def limiteHMax
+ * @brief Maximum hall sensor value limit.
+ */
 #define limiteHMax 1023
+
+/**
+ * @def limiteLMax
+ * @brief Maximum light sensor value limit.
+ */
 #define limiteLMax 1023  
+
+/**
+ * @def limiteTMin
+ * @brief Minimum temperature limit.
+ */
 #define limiteTMin 0
+
+/**
+ * @def limiteLMin
+ * @brief Minimum light sensor value limit.
+ */
 #define limiteLMin 0 
 
-
+/**
+ * @brief First line of liquid crystal display (LCD).
+ */
 LiquidLine line1(0, 1, "TEMP MAX [", tempMax, "]"); 
+
+/**
+ * @brief Second line of liquid crystal display (LCD).
+ */
 LiquidLine line2(0, 1, "TEMP MIN [", tempMin, "]"); 
+
+/**
+ * @brief Third line of liquid crystal display (LCD).
+ */
 LiquidLine line3(0, 1, "LUZ MAX [", luzMax, "]");
+
+/**
+ * @brief Fourth line of liquid crystal display (LCD).
+ */
 LiquidLine line4(0, 1, "LUZ MIN [", luzMin, "]");
+
+/**
+ * @brief Fifth line of liquid crystal display (LCD).
+ */
 LiquidLine line5(0, 1, "HALL [", hallMax, "]");
+
+/**
+ * @brief Sixth line of liquid crystal display (LCD).
+ */
 LiquidLine line6(0, 1, "RESET"); 
 
+/**
+ * @brief LCD screen.
+ */
 LiquidScreen screen; 
+
+/**
+ * @brief LiquidMenu object for menu navigation.
+ */
 LiquidMenu menu(lcd);
 
-
-void blankFunction() {
+/**
+ * @brief A function that does nothing but is important to attatch_function.
+ */
+void blankFunction(){
     return;
-}
-void incrementar(int lineaActual);
-void decrementar(int lineaActual);
+};
 
+/**
+ * @brief Function to output configurations to serial monitor.
+ */
 void outputConf(){
   Serial.println("Ini   Cfg   MonAmb   MonEve   Alm   Blq");
   Serial.println("       X                               ");
   Serial.println();
-
-
   
   lcd.clear();
 
@@ -65,37 +124,9 @@ void outputConf(){
   taskLoopMenu.Start();
 
 }
-
-void loopLiquidMenu(){
-  char key = keypad.getKey();
-
-
-  if(!key)
-    return;
-
-  int lineaActual = menu.get_focusedLine();
-
-  switch (key) {
-  case 'A':
-    incrementar(lineaActual);
-    break;
-  case 'B':
-    decrementar(lineaActual);
-    break;
-  case 'C':
-    menu.switch_focus();
-    if(lineaActual == 5)
-      menu.switch_focus();
-    break;
-  default:
-    Serial.println(lineaActual);
-  break;
-  
-  }
-    menu.update();
-
-}
-
+/**
+ * @brief Function to reset all configuration values to default.
+ */
 void reset(){
   tempMax = 40;
   tempMin = 0;
@@ -104,6 +135,10 @@ void reset(){
   hallMax = 1000;
 }
 
+/**
+ * @brief Function to increment the configuration values.
+ * @param lineaActual The current line index in the menu.
+ */
 void incrementar(int lineaActual){
   switch (lineaActual) {
   case 0:
@@ -133,6 +168,10 @@ void incrementar(int lineaActual){
 
 }
 
+/**
+ * @brief Function to decrement the configuration values.
+ * @param lineaActual The current line index in the menu.
+ */
 void decrementar(int lineaActual){
   switch (lineaActual) {
   case 0:
@@ -161,5 +200,39 @@ void decrementar(int lineaActual){
   }
 
 }
+
+/**
+ * @brief Function to handle menu navigation in the main loop.
+ */
+void loopLiquidMenu(){
+  char key = keypad.getKey();
+
+  if(!key)
+    return;
+
+  int lineaActual = menu.get_focusedLine();
+
+  switch (key) {
+  case 'A':
+    incrementar(lineaActual);
+    break;
+  case 'B':
+    decrementar(lineaActual);
+    break;
+  case 'C':
+    menu.switch_focus();
+    if(lineaActual == 5)
+      menu.switch_focus();
+    break;
+  default:
+    Serial.println(lineaActual);
+  break;
+  
+  }
+    menu.update();
+
+}
+
+
 
 #endif  // MENU

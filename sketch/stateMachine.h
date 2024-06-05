@@ -1,3 +1,7 @@
+/**
+ * @file state_machine.h
+ * @brief Header file containing the state machine setup and related functions.
+ */
 #ifndef STATE_MACHINE_H
 #define STATE_MACHINE_H
 
@@ -5,7 +9,10 @@
 #include "seguridad.h"
 #include "menu.h"
 
-// Setup the State Machine
+/**
+ * @brief Function to set up the state machine.
+ * It defines transitions between states and associated actions.
+ */
 void setupStateMachine()
 {
   // Add transitions
@@ -39,6 +46,10 @@ void setupStateMachine()
   stateMachine.SetOnLeaving(Bloqueo, salirBloqueo);
 }
 
+/**
+ * @brief Function to execute actions when leaving the 'Inicio' state.
+ * It turns off LEDs and performs cleanup.
+ */
 void salirInicio(){
   digitalWrite(LED_RED,LOW);
   digitalWrite(LED_BLUE, LOW);
@@ -47,6 +58,10 @@ void salirInicio(){
   Serial.println();
 }
 
+/**
+ * @brief Function to execute actions when leaving the 'Config' state.
+ * It stops menu-related tasks and resets input.
+ */
 void salirConfig(){
   taskLoopMenu.Stop();
   Serial.println("Saliendo Config"); 
@@ -54,6 +69,10 @@ void salirConfig(){
   input = Input::Unknown;
 }
 
+/**
+ * @brief Function to execute actions when leaving the 'MonAmbien' state.
+ * It stops environmental monitoring tasks and resets input.
+ */
 void salirMonAmbien(){
   Serial.println("Saliendo MonAmbien"); 
   Serial.println();
@@ -61,6 +80,10 @@ void salirMonAmbien(){
   input = Input::Unknown;
 }
 
+/**
+ * @brief Function to execute actions when leaving the 'MonEventos' state.
+ * It stops event monitoring tasks and resets input.
+ */
 void salirMonEventos(){
   Serial.println("Saliendo MonEventos"); 
   Serial.println();
@@ -68,12 +91,22 @@ void salirMonEventos(){
   
   input = Input::Unknown;
 }
+
+/**
+ * @brief Function to execute actions when leaving the 'Alarma' state.
+ * It stops alarm-related tasks.
+ */
 void salirAlarma(){
   Serial.println("Saliendo Alarma"); 
   Serial.println();
   
   taskAlarma.Stop();
 }
+
+/**
+ * @brief Function to execute actions when leaving the 'Bloqueo' state.
+ * It performs cleanup.
+ */
 void salirBloqueo(){
   Serial.println("Saliendo Bloqueo"); 
   Serial.println();

@@ -1,16 +1,22 @@
+/**
+ * @file monitor.h
+ * @brief Header file containing functions for environmental monitoring.
+ */
 #ifndef MONITOR
 #define MONITOR
 
 #include "utilidad.h"
 
+
+/**
+ * @brief Function to print environmental parameters to the LCD screen.
+ * It includes temperature, humidity, and light intensity.
+ */
 void printMonitorAmbiental() {
   lcd.clear();
   int h = dht.readHumidity();
-
   int t = dht.readTemperature();
-
   int photocell = analogRead(photocellPin);
-
 
   lcd.setCursor(0, 0);
 
@@ -38,6 +44,10 @@ void printMonitorAmbiental() {
 
 }
 
+/**
+ * @brief Function to print magnetic field intensity to the LCD screen.
+ * It monitors the magnetic field and triggers a task if it exceeds a predefined threshold.
+ */
 void printMonitorHall(){
   
   int mag = analogRead(HallPin);

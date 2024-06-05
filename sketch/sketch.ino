@@ -7,10 +7,14 @@
 void setup() 
 {
   Serial.begin(9600);
+  
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
 
   Serial.println("Starting State Machine...");
   setupStateMachine();  
   Serial.println("Start Machine Started");
+  input = Unknown;
 
   dht.begin();
   // Initial state
@@ -21,15 +25,16 @@ void setup()
   pinMode(LED_BLUE, OUTPUT);
 
   pinMode(buttonPin, INPUT);
+  btn.attachClick(handleClick);
 
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
 
 }
 
 void loop() 
 {
+  btn.tick();
   stateMachine.Update();
+  input = Unknown;
   updateTask();
   
 }

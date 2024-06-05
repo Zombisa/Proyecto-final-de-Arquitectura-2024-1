@@ -92,6 +92,13 @@ void updateTask(){
   taskTemp.Update();
   taskHall.Update();
   taskLuz.Update();
+  taskTimeOut30k.Update();
+  taskLoop.Update();
+  taskAgain.Update();
+  taskStopLoop.Update();
+  taskOnLedB.Update();
+  taskCorrect.Update();
+  taskSysBlock.Update();
 }
 
 void salirConfig();
@@ -105,18 +112,27 @@ bool isButtonPressed() {
   return false;
 }
 
-void alarma(){
-  tone(BUZZER, 2000, 500);
-  delay(500);
-  tone(BUZZER, 2500, 500);
-  delay(500);
-  tone(BUZZER, 3000, 500);
-  delay(500);
-  tone(BUZZER, 3500, 500);
-  delay(500);
-  noTone(BUZZER);
+void alarma() {
+  unsigned long currentTime = millis();
+  
+  if (!tonePlaying) {
+    if (currentTime - lastToneChangeTime >= durations[currentToneIndex]) {
+      tone(BUZZER, tones[currentToneIndex], durations[currentToneIndex]);
+      lastToneChangeTime = currentTime;
+      tonePlaying = true;
+    }
+  } else {
+    if (currentTime - lastToneChangeTime >= durations[currentToneIndex]) {
+      noTone(BUZZER);
+      currentToneIndex++;
+      if (currentToneIndex >= sizeof(tones) / sizeof(tones[0])) {
+        currentToneIndex = 0;
+      }
+      lastToneChangeTime = currentTime;
+      tonePlaying = false;
+    }
+  }
 }
-
 void outputAmb()
 {  
   Serial.println("Ini   Cfg   MonAmb   MonEve   Alm   Blq");

@@ -34,6 +34,10 @@ void outputConf(){
   Serial.println("       X                               ");
   Serial.println();
 
+
+  
+  lcd.clear();
+
   screen.add_line(line1);
   screen.add_line(line2);
   screen.add_line(line3);

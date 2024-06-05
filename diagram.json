@@ -24,18 +24,26 @@
     {
       "type": "wokwi-dht22",
       "id": "dht1",
-      "top": 322.58,
-      "left": 859.05,
+      "top": 326.7,
+      "left": 858.6,
       "attrs": { "temperature": "24.6" }
     },
     {
       "type": "wokwi-photoresistor-sensor",
       "id": "ldr1",
-      "top": 320.18,
-      "left": 925.65,
+      "top": 316.5,
+      "left": 896.9,
       "rotate": 90,
       "attrs": {}
-    }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 198.2,
+      "left": 172.8,
+      "attrs": { "color": "green" }
+    },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": 116.7, "left": 965.5, "attrs": {} }
   ],
   "connections": [
     [ "uno:GND.1", "lcd:VSS", "black", [ "v-51", "*", "h0", "v18" ] ],
@@ -56,7 +64,6 @@
     [ "rgb1:B", "uno:16", "blue", [ "h91.15", "v-374.4", "h-178.05" ] ],
     [ "rgb1:G", "uno:15", "green", [ "h1.3", "v-364.8", "h-88.4" ] ],
     [ "rgb1:R", "uno:14", "red", [ "h-48", "v-355.2", "h-30.7" ] ],
-    [ "dht1:SDA", "uno:A0", "green", [ "v23.32", "h-272.84" ] ],
     [ "ldr1:AO", "uno:A1", "green", [ "v34.72", "h-377.44" ] ],
     [ "keypad:R1", "uno:22", "green", [ "v67.2", "h-2.22", "v58.96" ] ],
     [ "keypad:R2", "uno:24", "green", [ "v0" ] ],
@@ -70,7 +77,11 @@
     [ "lcd:D6", "uno:3", "green", [ "v87.64", "h208.08" ] ],
     [ "lcd:D5", "uno:4", "green", [ "v97.24", "h217.58" ] ],
     [ "lcd:D4", "uno:5", "green", [ "v106.84", "h207.88" ] ],
-    [ "bz1:2", "uno:13", "magenta", [ "h139.28", "v-328.1" ] ]
+    [ "bz1:2", "uno:13", "magenta", [ "h139.28", "v-328.1" ] ],
+    [ "btn1:2.r", "uno:GND.3", "black", [ "v221", "h343.55" ] ],
+    [ "btn1:1.r", "uno:1", "purple", [ "h336.2", "v0", "h71.1" ] ],
+    [ "ultrasonic1:TRIG", "uno:A0", "green", [ "v249.6", "h-438.7" ] ],
+    [ "dht1:SDA", "uno:38", "green", [ "h-57.5", "v-116.35" ] ]
   ],
   "dependencies": {}
 }

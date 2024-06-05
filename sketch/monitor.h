@@ -1,6 +1,8 @@
 /**
  * @file monitor.h
  * @brief Header file containing functions for environmental monitoring.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 #ifndef MONITOR
 #define MONITOR

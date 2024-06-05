@@ -1,6 +1,8 @@
 /**
  * @file state_machine.h
  * @brief Header file containing the state machine setup and related functions.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 #ifndef STATE_MACHINE_H
 #define STATE_MACHINE_H
@@ -10,8 +12,10 @@
 #include "menu.h"
 
 /**
- * @brief Function to set up the state machine.
- * It defines transitions between states and associated actions.
+ * @brief Sets up the state machine with states, transitions, and actions.
+ * 
+ * This function defines the states and transitions for the state machine,
+ * and sets up actions to be performed on entering and leaving each state.
  */
 void setupStateMachine()
 {
@@ -31,7 +35,7 @@ void setupStateMachine()
   stateMachine.AddTransition(Bloqueo, Inicio, []() { return input == Time10; }); 
 
   // Add actions
-  stateMachine.SetOnEntering(Inicio, seguridad);
+  stateMachine.SetOnEntering(Inicio, outputIni);
   stateMachine.SetOnEntering(Config, outputConf);
   stateMachine.SetOnEntering(MonAmbien, outputAmb);
   stateMachine.SetOnEntering(MonEventos, outputEve);
@@ -47,8 +51,8 @@ void setupStateMachine()
 }
 
 /**
- * @brief Function to execute actions when leaving the 'Inicio' state.
- * It turns off LEDs and performs cleanup.
+ * @brief Actions to perform when leaving the Inicio state.
+ * This function turns off all LEDs and prints a message to the serial monitor.
  */
 void salirInicio(){
   digitalWrite(LED_RED,LOW);
@@ -59,8 +63,8 @@ void salirInicio(){
 }
 
 /**
- * @brief Function to execute actions when leaving the 'Config' state.
- * It stops menu-related tasks and resets input.
+ * @brief Actions to perform when leaving the Config state.
+ * This function stops the menu loop task and resets the input to Unknown.
  */
 void salirConfig(){
   taskLoopMenu.Stop();
@@ -70,8 +74,8 @@ void salirConfig(){
 }
 
 /**
- * @brief Function to execute actions when leaving the 'MonAmbien' state.
- * It stops environmental monitoring tasks and resets input.
+ * @brief Actions to perform when leaving the MonAmbien state.
+ * This function stops the environmental monitoring loop task and resets the input to Unknown.
  */
 void salirMonAmbien(){
   Serial.println("Saliendo MonAmbien"); 
@@ -81,8 +85,8 @@ void salirMonAmbien(){
 }
 
 /**
- * @brief Function to execute actions when leaving the 'MonEventos' state.
- * It stops event monitoring tasks and resets input.
+ * @brief Actions to perform when leaving the MonEventos state.
+ * This function stops the event monitoring loop task and resets the input to Unknown.
  */
 void salirMonEventos(){
   Serial.println("Saliendo MonEventos"); 
@@ -93,8 +97,8 @@ void salirMonEventos(){
 }
 
 /**
- * @brief Function to execute actions when leaving the 'Alarma' state.
- * It stops alarm-related tasks.
+ * @brief Actions to perform when leaving the Alarma state.
+ * This function stops the alarm task.
  */
 void salirAlarma(){
   Serial.println("Saliendo Alarma"); 
@@ -104,8 +108,8 @@ void salirAlarma(){
 }
 
 /**
- * @brief Function to execute actions when leaving the 'Bloqueo' state.
- * It performs cleanup.
+ * @brief Actions to perform when leaving the Bloqueo state.
+ * This function prints a message to the serial monitor.
  */
 void salirBloqueo(){
   Serial.println("Saliendo Bloqueo"); 

@@ -1,13 +1,16 @@
 /**
  * @file utilidad.h
  * @brief Header file containing utility functions and task declarations.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 #ifndef UTILIDAD_H
 #define UTILIDAD_H
 
 /**
- * @brief Function to read user input and map it to predefined input events.
- * @return Input event mapped from user input.
+ * @brief Reads user input from the serial monitor and returns the corresponding Input enum value.
+ * 
+ * @return The Input enum value corresponding to the user's input character.
  */
 int readInput()
 {

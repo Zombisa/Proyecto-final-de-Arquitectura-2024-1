@@ -1,6 +1,8 @@
 /**
  * @file variables.h
  * @brief Header file containing global variables and definitions.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 #ifndef VARIABLES_H
 #define VARIABLES_H
@@ -24,7 +26,7 @@
 /**
  * @brief Default password.
  */
-unsigned char varContrasenia[4] = {'1', '2', '3', '4'};
+unsigned char varContrasenia[4] = {'1', '2', '3', '4'}; /**< Button pin. */
 
 /**
  * @brief Array to store user input.

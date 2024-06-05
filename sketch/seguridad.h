@@ -1,6 +1,8 @@
 /**
  * @file seguridad.h
  * @brief Header file containing functions for security management.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 #ifndef SEGURIDAD
 #define SEGURIDAD
@@ -8,10 +10,12 @@
 #include "variables.h"
 
 /**
- * @brief Function to initialize security system.
- * It resets variables, clears LCD, and starts necessary tasks.
+ * @brief Initializes the security system.
+ * 
+ * This function resets counters and states, updates the LCD to prompt for the password,
+ * starts the loop task for security checks, and initializes the password comparison array.
  */
-void seguridad(){
+void outputIni(){
  
   Serial.println("Ini   Cfg   MonAmb   MonEve   Alm   Blq");
   Serial.println(" X                                     ");
@@ -31,8 +35,10 @@ void seguridad(){
 }
 
 /**
- * @brief Function to handle correct password input.
- * It displays a success message, activates green LED, and plays a melody.
+ * @brief Actions to perform when the correct password is entered.
+ * 
+ * This function updates the LCD, turns on the green LED, plays a success tone sequence,
+ * stops the loop task, starts the task for correct password, and stops the timer task.
  */
 void claveCorrecta(){
   reiniciarLCD();
@@ -56,8 +62,11 @@ void claveCorrecta(){
 }
 
 /**
- * @brief Function to handle incorrect password input.
- * It displays an error message, activates blue LED, and manages retry attempts.
+ * @brief Actions to perform when an incorrect password is entered.
+ * 
+ * This function updates the LCD, turns on the blue LED, plays an error tone,
+ * resets the password comparison array, stops the loop task, and either starts the 
+ * system block task or the retry task based on the number of attempts.
  */
 void claveIncorrecta(){
   lcd.clear();
@@ -83,8 +92,11 @@ void claveIncorrecta(){
 }
 
 /**
- * @brief Function to handle security loop.
- * It captures keypad input and verifies the entered password.
+ * @brief Main loop for the security system to read and process user input.
+ * 
+ * This function reads keypad input, updates the display, and checks the entered
+ * password against the stored password. It handles digit entry, password comparison,
+ * and starts appropriate tasks based on the comparison result.
  */
 void loopSeguridad(){
   lcd.setCursor(contadorDigitos, 1);
@@ -125,8 +137,10 @@ void loopSeguridad(){
 }
 
 /**
- * @brief Function to handle retry attempt.
- * It resets variables for re-entering the password and starts necessary tasks.
+ * @brief Resets the security system for another password attempt.
+ * 
+ * This function turns off the blue LED, resets the LCD, and starts the loop task
+ * for another password attempt, incrementing the attempt counter.
  */
 void again(){
   digitalWrite(LED_BLUE, LOW);

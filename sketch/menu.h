@@ -1,6 +1,8 @@
 /**
  * @file menu.h
  * @brief Header file containing menu configurations and functions.
+ * @author Isabela Mosquera Fernandez
+ * @author Isabela Sanchez Saavedra
  */
 
 #ifndef MENU
